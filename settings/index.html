@@ -162,7 +162,39 @@
       
       <button id="btnClearCache" class="btn btn-secondary">Cancella cache e dati temporanei</button>
     </article>
-    
+
+    <!-- Sezione Home -->
+    <article class="surface stack">
+      <h3 class="h3">Sezioni Home</h3>
+
+      <div class="toggle-field">
+        <label class="label" for="trackShows">Segna i miei show</label>
+        <input type="checkbox" id="trackShows">
+      </div>
+
+      <div class="toggle-field">
+        <label class="label" for="toggleUpcoming">Prossimi show</label>
+        <input type="checkbox" id="toggleUpcoming">
+      </div>
+
+      <div class="toggle-field">
+        <label class="label" for="toggleRecent">Effetti recenti</label>
+        <input type="checkbox" id="toggleRecent">
+      </div>
+
+      <div class="toggle-field">
+        <label class="label" for="toggleStats">Statistiche</label>
+        <input type="checkbox" id="toggleStats">
+      </div>
+
+      <div class="toggle-field">
+        <label class="label" for="toggleHistory">Cronologia</label>
+        <input type="checkbox" id="toggleHistory">
+      </div>
+
+      <small class="meta">Scegli quali sezioni mostrare nella home.</small>
+    </article>
+
     <!-- Sezione Info -->
     <article class="surface stack">
       <h3 class="h3">Informazioni</h3>
@@ -183,7 +215,11 @@
       </div>
     </article>
   </div>
-  
+
+  <div class="cluster" style="justify-content:flex-end;margin-top:16px">
+    <button id="btnSaveSettings" class="btn btn-primary">Salva impostazioni</button>
+  </div>
+
   <div class="surface stack" style="margin-top:20px">
     <div class="cluster" style="justify-content:space-between">
       <h3 class="h3">Dati e Reset</h3>

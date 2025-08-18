@@ -1,0 +1,14 @@
+{
+  "theme": "dark",
+  "protect": "on",
+  "fontSize": 100,
+  "accent": "#C6A664",
+  "offline": "on",
+  "notifications": "on",
+  "scriptProtection": "on",
+  "sectionUpcoming": "on",
+  "sectionRecent": "on",
+  "sectionStats": "on",
+  "sectionHistory": "on",
+  "trackShows": "on"
+}

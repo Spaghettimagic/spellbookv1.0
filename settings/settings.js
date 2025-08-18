@@ -6,12 +6,27 @@ wireActiveNav();
 onKeySlashFocus("#globalSearch");
 initGlobalSearch();
 
+// Inizializza impostazioni da file JSON se non presenti
+(async () => {
+  if (!localStorage.getItem('ms.settings')) {
+    try {
+      const defaults = await fetch('./defaults.json').then(r => r.json());
+      localStorage.setItem('ms.settings', JSON.stringify(defaults));
+      Object.entries(defaults).forEach(([k, v]) => {
+        localStorage.setItem(`ms.${k}`, v);
+      });
+    } catch (err) {
+      console.error('Impossibile caricare defaults', err);
+    }
+  }
+})();
+
 // Gestione tema
 const themeSelect = $("setTheme");
 themeSelect.value = getState().theme;
 themeSelect.addEventListener("change", () => {
   setTheme(themeSelect.value);
-  
+
   // Aggiorna i pulsanti del tema
   document.querySelectorAll('.themeBtn').forEach(btn => {
     btn.setAttribute('aria-pressed', btn.dataset.theme === themeSelect.value ? 'true' : 'false');
@@ -70,6 +85,49 @@ const scriptProtectionSelect = $("setShowOnlyInPractice");
 scriptProtectionSelect.value = localStorage.getItem('ms.scriptProtection') || 'on';
 scriptProtectionSelect.addEventListener("change", () => {
   localStorage.setItem('ms.scriptProtection', scriptProtectionSelect.value);
+});
+
+// Sezioni Home
+const sectionToggles = [
+  { id: 'trackShows', key: 'trackShows' },
+  { id: 'toggleUpcoming', key: 'sectionUpcoming' },
+  { id: 'toggleRecent', key: 'sectionRecent' },
+  { id: 'toggleStats', key: 'sectionStats' },
+  { id: 'toggleHistory', key: 'sectionHistory' }
+];
+
+sectionToggles.forEach(({ id, key }) => {
+  const el = $(id);
+  if (!el) return;
+  const stored = localStorage.getItem(`ms.${key}`);
+  el.checked = stored !== 'off';
+  el.addEventListener('change', () => {
+    localStorage.setItem(`ms.${key}`, el.checked ? 'on' : 'off');
+  });
+});
+
+function collectSettings() {
+  return {
+    theme: localStorage.getItem('ms.theme') || 'dark',
+    protect: localStorage.getItem('ms.protect') || 'on',
+    fontSize: localStorage.getItem('ms.fontSize') || '100',
+    accent: localStorage.getItem('ms.accent') || '#C6A664',
+    offline: localStorage.getItem('ms.offline') || 'on',
+    notifications: localStorage.getItem('ms.notifications') || 'on',
+    scriptProtection: localStorage.getItem('ms.scriptProtection') || 'on',
+    sectionUpcoming: localStorage.getItem('ms.sectionUpcoming') || 'on',
+    sectionRecent: localStorage.getItem('ms.sectionRecent') || 'on',
+    sectionStats: localStorage.getItem('ms.sectionStats') || 'on',
+    sectionHistory: localStorage.getItem('ms.sectionHistory') || 'on',
+    trackShows: localStorage.getItem('ms.trackShows') || 'on'
+  };
+}
+
+$("btnSaveSettings")?.addEventListener("click", () => {
+  const settings = collectSettings();
+  localStorage.setItem('ms.settings', JSON.stringify(settings));
+  downloadJSON('settings.json', settings);
+  alert('Impostazioni salvate');
 });
 
 // Backup dati

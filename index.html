@@ -86,21 +86,7 @@
   </header>
 
   <div class="auto-grid">
-    <article class="surface stack">
-      <div class="cluster" style="justify-content:space-between">
-        <h2 class="h3" style="margin:0">Prossimi show</h2>
-        <button class="btn btn-secondary" id="addEvent">
-          <svg class="icon" style="margin-right:4px"><use href="#ic-plus"/></svg>
-          Evento
-        </button>
-      </div>
-      <div class="table responsive-table"><table aria-label="Prossimi show">
-        <thead><tr><th>Data</th><th>Titolo</th><th>Note</th></tr></thead>
-        <tbody id="homeUpcoming"></tbody>
-      </table></div>
-    </article>
-
-    <article class="surface stack">
+    <article id="sectionRecent" class="surface stack">
       <div class="cluster" style="justify-content:space-between">
         <h2 class="h3" style="margin:0">Effetti recenti</h2>
         <a class="btn btn-secondary" href="effects/index.html">Apri catalogo</a>
@@ -108,52 +94,63 @@
       <div id="homeRecent" class="auto-grid-sm"></div>
     </article>
   </div>
-  
+
   <div class="auto-grid" style="margin-top:24px">
-    <article class="surface stack">
+    <article id="sectionStats" class="surface stack">
       <div class="cluster" style="justify-content:space-between">
         <h2 class="h3" style="margin:0">Statistiche</h2>
         <span class="chip">Ultimo aggiornamento: <span id="statsDate">oggi</span></span>
       </div>
-      
+
       <div class="stats-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:20px;margin-top:10px">
         <div class="stat-box" style="background:var(--surface-2);border-radius:var(--r-l);padding:16px;text-align:center">
           <div style="font-size:32px;font-weight:bold;color:var(--accent)" id="statEffects">0</div>
           <div class="meta">Effetti totali</div>
         </div>
-        
+
         <div class="stat-box" style="background:var(--surface-2);border-radius:var(--r-l);padding:16px;text-align:center">
           <div style="font-size:32px;font-weight:bold;color:var(--accent)" id="statEvents">0</div>
           <div class="meta">Eventi</div>
         </div>
-        
+
         <div class="stat-box" style="background:var(--surface-2);border-radius:var(--r-l);padding:16px;text-align:center">
           <div style="font-size:32px;font-weight:bold;color:var(--accent)" id="statDuration">0:00</div>
           <div class="meta">Durata totale</div>
         </div>
-        
+
         <div class="stat-box" style="background:var(--surface-2);border-radius:var(--r-l);padding:16px;text-align:center">
           <div style="font-size:32px;font-weight:bold;color:var(--accent)" id="statMaterials">0</div>
           <div class="meta">Materiali</div>
         </div>
       </div>
-      
+
       <div class="chart" style="margin-top:20px;height:180px;background:var(--surface-2);border-radius:var(--r-l);padding:20px">
         <h3 class="h3" style="margin:0 0 16px">Distribuzione per categoria</h3>
         <div id="categoryChart" style="display:flex;align-items:flex-end;height:100px;gap:10px"></div>
       </div>
     </article>
-    
-    <article class="surface stack">
+
+    <article id="sectionHistory" class="surface stack">
       <h2 class="h3" style="margin:0">Cronologia</h2>
-      
+
       <div class="history-timeline" style="position:relative;padding-left:24px;margin-top:10px" id="historyTimeline">
         <div style="position:absolute;top:0;bottom:0;left:10px;width:2px;background:var(--border)"></div>
-        
+
         <!-- Gli elementi della cronologia saranno generati dinamicamente -->
       </div>
     </article>
   </div>
+
+  <article id="sectionUpcoming" class="surface stack" style="margin-top:24px">
+    <div class="cluster" style="justify-content:space-between">
+      <h2 class="h3" style="margin:0">Prossimi show</h2>
+      <button class="btn btn-secondary" id="addEvent">
+        <svg class="icon" style="margin-right:4px"><use href="#ic-plus"/></svg>
+        Evento
+      </button>
+    </div>
+    <ul id="homeUpcoming" class="upcoming-list"></ul>
+  </article>
 </section>
 
   </main>
