@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="it" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Offline — Spellbook</title>
+  <meta name="color-scheme" content="dark light" />
+  <meta name="theme-color" content="#0B0B0D">
+  <meta name="sw-path" content="sw.js">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+</head>
+<body>
+  <main class="wrap" style="display:flex;align-items:center;justify-content:center;min-height:80vh">
+    <div class="surface stack" style="text-align:center;padding:32px;max-width:400px">
+      <svg class="icon" style="width:64px;height:64px;margin:0 auto;opacity:0.7;color:var(--accent)">
+        <path d="M10 3v18h12V3H10zm0 16v2h12v-2H10zM8 3H6v18h2V3zm-4 0H2v18h2V3z" fill="currentColor"/>
+      </svg>
+      <h1>Sei offline</h1>
+      <p class="meta">La pagina richiesta non è disponibile nella cache offline.</p>
+      <p>Verifica la connessione internet e riprova.</p>
+      <div class="cluster" style="justify-content:center;margin-top:24px">
+        <button class="btn btn-primary" onclick="window.location.reload()">Riprova</button>
+        <a href="index.html" class="btn btn-secondary">Torna alla Home</a>
+      </div>
+      
+      <div style="margin-top:40px">
+        <h3 class="h3">Contenuti disponibili offline:</h3>
+        <nav class="stack" style="max-width:300px;margin:0 auto">
+          <a class="btn btn-secondary" href="index.html">Home</a>
+          <a class="btn btn-secondary" href="effects/index.html">Catalogo Effetti</a>
+          <a class="btn btn-secondary" href="routine/index.html">Routine</a>
+          <a class="btn btn-secondary" href="settings/index.html">Impostazioni</a>
+        </nav>
+      </div>
+    </div>
+  </main>
+  
+  <script>
+    // Verifica se il browser è online
+    function updateOnlineStatus() {
+      const statusDiv = document.getElementById('status');
+      if (statusDiv) {
+        statusDiv.textContent = navigator.onLine ? 'Online' : 'Offline';
+        statusDiv.className = navigator.onLine ? 'online' : 'offline';
+      }
+      
+      // Se torna online, ricarica la pagina
+      if (navigator.onLine) {
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      }
+    }
+    
+    window.addEventListener('online', updateOnlineStatus);
+    window.addEventListener('offline', updateOnlineStatus);
+    updateOnlineStatus();
+  </script>
+</body>
+</html>
