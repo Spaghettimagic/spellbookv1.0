@@ -60,6 +60,8 @@ p,li,code,pre{font-size:var(--f-b)} small{font-size:var(--f-cap);color:var(--mut
 }
 /* Inputs */
 .field{display:grid;gap:6px} .label{color:var(--muted);font-weight:600;font-size:12px}
+.field-checkbox{display:flex;align-items:center;justify-content:space-between}
+.field-checkbox .label{margin:0}
 .input, select, textarea{width:100%;color:var(--text);background:var(--surface-2);border:var(--bw-2) solid var(--border);border-radius:var(--r-m);padding:12px;min-height:48px;font-size:16px}
 .input:hover, select:hover, textarea:hover{border-color:var(--accent)}
 .input:focus, select:focus, textarea:focus, .btn:focus{outline:none;box-shadow:0 0 0 2px var(--text), 0 0 0 4px var(--accent);border-color:var(--accent)}
