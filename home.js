@@ -198,8 +198,19 @@ function generateCategoryChart() {
 // Aggiorna la pagina home
 function refreshHome(){
   const s = getState();
-  const tbody = $("homeUpcoming"); 
-  tbody.innerHTML = "";
+
+  const showUpcoming = localStorage.getItem('ms.sectionUpcoming') !== 'off';
+  const showRecent = localStorage.getItem('ms.sectionRecent') !== 'off';
+  const showStats = localStorage.getItem('ms.sectionStats') !== 'off';
+  const showHistory = localStorage.getItem('ms.sectionHistory') !== 'off';
+
+  $("sectionUpcoming").style.display = showUpcoming ? "" : "none";
+  $("sectionRecent").style.display = showRecent ? "" : "none";
+  $("sectionStats").style.display = showStats ? "" : "none";
+  $("sectionHistory").style.display = showHistory ? "" : "none";
+
+  const list = $("homeUpcoming");
+  list.innerHTML = "";
   
   // Ordina gli eventi per data
   const sortedEvents = [...s.events].sort((a, b) => a.date.localeCompare(b.date));
@@ -241,31 +252,27 @@ function refreshHome(){
     }
   }, 1500);
   
-  // Popola la tabella degli eventi imminenti
-  sortedEvents.slice(0, 4).forEach(ev => { 
-    const tr = document.createElement("tr");
-    
-    // Evidenzia eventi di oggi
+  // Popola la lista degli eventi imminenti
+  sortedEvents.slice(0, 4).forEach(ev => {
+    const li = document.createElement("li");
+
     if (ev.date === todayStr) {
-      tr.style.background = "color-mix(in oklab,var(--accent),transparent 85%)";
-      tr.style.fontWeight = "bold";
+      li.style.background = "color-mix(in oklab,var(--accent),transparent 85%)";
+      li.style.fontWeight = "bold";
     }
-    
-    // Evidenzia eventi di domani
     else if (ev.date === tomorrowStr) {
-      tr.style.background = "color-mix(in oklab,var(--surface),var(--accent) 5%)";
+      li.style.background = "color-mix(in oklab,var(--surface),var(--accent) 5%)";
     }
-    
-    tr.innerHTML = `
-      <td data-label="Data">${ev.date}</td>
-      <td data-label="Titolo">${ev.title}</td>
-      <td data-label="Note">
-        ${ev.date === todayStr ? '<span class="chip" style="background:var(--accent);color:var(--bg)">OGGI</span>' : 
-          ev.date === tomorrowStr ? '<span class="chip">DOMANI</span>' : '—'}
-      </td>
-    `;
-    
-    tbody.appendChild(tr);
+
+    const note = ev.date === todayStr
+      ? '<span class="chip" style="background:var(--accent);color:var(--bg)">OGGI</span>'
+      : ev.date === tomorrowStr
+        ? '<span class="chip">DOMANI</span>'
+        : '—';
+
+    li.innerHTML = `<span>${ev.date}</span><span>${ev.title}</span><span>${note}</span>`;
+
+    list.appendChild(li);
   });
   
   // Popola gli effetti recenti

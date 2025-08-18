@@ -72,6 +72,24 @@ scriptProtectionSelect.addEventListener("change", () => {
   localStorage.setItem('ms.scriptProtection', scriptProtectionSelect.value);
 });
 
+// Sezioni Home
+const sectionToggles = [
+  { id: 'toggleUpcoming', key: 'sectionUpcoming' },
+  { id: 'toggleRecent', key: 'sectionRecent' },
+  { id: 'toggleStats', key: 'sectionStats' },
+  { id: 'toggleHistory', key: 'sectionHistory' }
+];
+
+sectionToggles.forEach(({ id, key }) => {
+  const el = $(id);
+  if (!el) return;
+  const stored = localStorage.getItem(`ms.${key}`);
+  el.checked = stored !== 'off';
+  el.addEventListener('change', () => {
+    localStorage.setItem(`ms.${key}`, el.checked ? 'on' : 'off');
+  });
+});
+
 // Backup dati
 $("btnBackupData")?.addEventListener("click", () => {
   const allData = {

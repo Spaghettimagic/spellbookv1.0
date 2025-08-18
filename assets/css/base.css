@@ -93,8 +93,13 @@ p,li,code,pre{font-size:var(--f-b)} small{font-size:var(--f-cap);color:var(--mut
   .responsive-table tr{margin-bottom:12px;border:1px solid var(--border);border-radius:var(--r-l);overflow:hidden}
   .responsive-table td{padding:10px;position:relative;text-align:right;border:none;border-bottom:1px solid var(--border)}
   .responsive-table td:last-child{border-bottom:0}
-  .responsive-table td:before{content:attr(data-label);position:absolute;left:10px;top:10px;font-weight:600;text-align:left}
+.responsive-table td:before{content:attr(data-label);position:absolute;left:10px;top:10px;font-weight:600;text-align:left}
 }
+
+/* Upcoming events list */
+.upcoming-list{list-style:none;margin:0;padding:0}
+.upcoming-list li{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--border);border-radius:var(--r-l);padding:10px;background:var(--surface-2)}
+.upcoming-list li+li{margin-top:8px}
 /* DnD */
 .drop{border:2px dashed var(--border);border-radius:14px;padding:12px;min-height:160px;touch-action:none}
 .drop .item{background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:10px 12px;display:flex;align-items:center;gap:10px;margin:8px 0;cursor:grab;user-select:none;-webkit-user-select:none;touch-action:none}
