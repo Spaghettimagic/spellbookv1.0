@@ -49,7 +49,7 @@ p,li,code,pre{font-size:var(--f-b)} small{font-size:var(--f-cap);color:var(--mut
   .bottombar{display:none}
 }
 /* Buttons */
-.btn{appearance:none;border:none;padding:12px 16px;border-radius:var(--r-pill);font-weight:700;cursor:pointer;transition:background var(--dur-hover) var(--ease),transform var(--dur-press) var(--ease),box-shadow var(--dur-hover) var(--ease);white-space:nowrap;touch-action:manipulation}
+.btn{appearance:none;border:none;padding:12px 16px;border-radius:var(--r-pill);font-weight:700;cursor:pointer;transition:background var(--dur-hover) var(--ease),transform var(--dur-press) var(--ease),box-shadow var(--dur-hover) var(--ease);white-space:nowrap;touch-action:manipulation;display:inline-flex;align-items:center;justify-content:center;text-align:center}
 .btn:active{transform:translateY(1px)}
 .btn-primary{background:var(--accent);color:var(--bg);box-shadow:var(--e1)} .btn-primary:hover{filter:brightness(.92)}
 .btn-secondary{background:transparent;color:var(--accent);border:var(--bw-2) solid var(--accent)} .btn-secondary:hover{background:color-mix(in oklab, var(--accent), transparent 85%)}
