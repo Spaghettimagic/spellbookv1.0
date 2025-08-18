@@ -90,6 +90,16 @@ sectionToggles.forEach(({ id, key }) => {
   });
 });
 
+// Show markers
+const showMarkersToggle = $("toggleShowMarkers");
+if (showMarkersToggle) {
+  const stored = localStorage.getItem('ms.showMarkers');
+  showMarkersToggle.checked = stored !== 'off';
+  showMarkersToggle.addEventListener('change', () => {
+    localStorage.setItem('ms.showMarkers', showMarkersToggle.checked ? 'on' : 'off');
+  });
+}
+
 // Backup dati
 $("btnBackupData")?.addEventListener("click", () => {
   const allData = {
@@ -104,6 +114,26 @@ $("btnBackupData")?.addEventListener("click", () => {
   };
   
   downloadJSON("spellbook-backup.json", allData);
+});
+
+// Salva impostazioni
+$("btnSaveSettings")?.addEventListener("click", () => {
+  const settings = {
+    theme: themeSelect.value,
+    protect: protectSelect.value,
+    fontSize: fontSizeRange.value,
+    offline: offlineModeSelect.value,
+    notifications: notificationsSelect.value,
+    scriptProtection: scriptProtectionSelect.value,
+    showMarkers: showMarkersToggle?.checked ? 'on' : 'off',
+    sections: {
+      upcoming: $("toggleUpcoming")?.checked,
+      recent: $("toggleRecent")?.checked,
+      stats: $("toggleStats")?.checked,
+      history: $("toggleHistory")?.checked
+    }
+  };
+  downloadJSON("settings.json", settings);
 });
 
 // Importazione dati

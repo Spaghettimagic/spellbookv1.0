@@ -15,6 +15,8 @@ let effectStartTimes = [];
 let totalRoutineDuration = 0;
 let playingState = false;
 const modal = $("showModal");
+const showMarkersEnabled = localStorage.getItem('ms.showMarkers') !== 'off';
+const showStatus = JSON.parse(localStorage.getItem('ms.showStatus') || '{}');
 
 // Carica i dati della routine
 function loadRoutine() {
@@ -69,7 +71,7 @@ function loadRoutine() {
   routine.forEach((item, i) => {
     const effect = state.effects.find(e => e.id === item.id);
     if (!effect) return;
-    
+
     const el = document.createElement("div");
     el.className = "setlist-item surface-2";
     el.dataset.index = i;
@@ -79,6 +81,7 @@ function loadRoutine() {
     el.style.cursor = "pointer";
     el.style.transition = "background 0.2s ease";
     
+    const markHTML = showMarkersEnabled ? `<label class="meta" style="display:flex;align-items:center;gap:4px"><input type="checkbox" class="show-mark"> Fatto</label>` : "";
     el.innerHTML = `
       <div class="cluster" style="justify-content:space-between">
         <div>
@@ -88,9 +91,26 @@ function loadRoutine() {
         <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
           <span class="chip" data-start-at>${fmtSec(effectStartTimes[i])}</span>
           <button class="btn btn-secondary btn-sm" style="padding:4px 10px;min-height:32px">Vai</button>
+          ${markHTML}
         </div>
       </div>
     `;
+
+    if (showMarkersEnabled) {
+      const checkbox = el.querySelector('.show-mark');
+      checkbox.checked = !!showStatus[item.id];
+      if (showStatus[item.id]) el.style.opacity = '0.6';
+      checkbox.addEventListener('change', () => {
+        if (checkbox.checked) {
+          showStatus[item.id] = true;
+          el.style.opacity = '0.6';
+        } else {
+          delete showStatus[item.id];
+          el.style.opacity = '1';
+        }
+        localStorage.setItem('ms.showStatus', JSON.stringify(showStatus));
+      });
+    }
     
     // Aggiungi evento click
     el.addEventListener("click", () => {
