@@ -1,6 +1,6 @@
 import { initGlobalSearch } from "../assets/js/core/search-ui.js";
 import { getState, setProtect, setTheme } from "../assets/js/core/state.js";
-import { $, downloadJSON, onKeySlashFocus, wireActiveNav } from "../assets/js/core/utils.js";
+import { $, downloadJSON, importJSON, onKeySlashFocus, wireActiveNav } from "../assets/js/core/utils.js";
 
 wireActiveNav();
 onKeySlashFocus("#globalSearch");
