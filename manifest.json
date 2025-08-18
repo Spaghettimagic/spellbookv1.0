@@ -6,7 +6,7 @@
   "scope": "./",
   "theme_color": "#0B0B0D",
   "background_color": "#0B0B0D",
-  "description": "Spellbook per maghi: catalogo effetti, routine composer, show & practice mode.",
+  "description": "Spellbook per maghi: effetti, routine composer, show & practice mode.",
   "icons": [
     {
       "src": "./assets/img/favicon.svg",
@@ -46,7 +46,7 @@
       "sizes": "750x1334",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "Catalogo effetti su mobile"
+        "label": "Effetti su mobile"
     }
   ],
   "prefer_related_applications": false,
@@ -61,9 +61,9 @@
       "icons": [{ "src": "./assets/img/favicon.svg", "sizes": "192x192" }]
     },
     {
-      "name": "Catalogo",
-      "short_name": "Catalogo",
-      "description": "Visualizza il catalogo effetti",
+      "name": "Effetti",
+      "short_name": "Effetti",
+      "description": "Visualizza gli effetti",
       "url": "./effects/index.html",
       "icons": [{ "src": "./assets/img/favicon.svg", "sizes": "192x192" }]
     }
