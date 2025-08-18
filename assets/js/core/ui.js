@@ -8,6 +8,23 @@ if(openD && drawer && closeD){
   closeD.addEventListener("click", ()=> { drawer.classList.remove("show"); drawer.setAttribute('aria-hidden','true'); untrap && untrap(); });
   document.addEventListener("keydown", e=>{ if(e.key==="Escape") { drawer.classList.remove("show"); drawer.setAttribute('aria-hidden','true'); untrap && untrap(); } });
 }
+
+if(drawer){
+  const mql = window.matchMedia('(min-width: 768px)');
+  const updateDrawer = e => {
+    if(e.matches){
+      drawer.classList.add('show');
+      drawer.setAttribute('aria-hidden','false');
+      drawer.removeAttribute('tabindex');
+    } else {
+      drawer.classList.remove('show');
+      drawer.setAttribute('aria-hidden','true');
+      drawer.setAttribute('tabindex','-1');
+    }
+  };
+  mql.addEventListener('change', updateDrawer);
+  updateDrawer(mql);
+}
 qsa(".themeBtn").forEach(btn=>{
   btn.addEventListener("click", ()=>{
     setTheme(btn.dataset.theme);
