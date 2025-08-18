@@ -27,7 +27,7 @@ export function initGlobalSearch() {
   searchInput.addEventListener('keydown', handleSearchKeydown);
 }
 
-// Inizializza la ricerca del catalogo
+// Inizializza la ricerca degli effetti
 export function initCatalogSearch() {
   const searchInput = qs('#fxSearch');
   const catFilter = qs('#fxFilterCat');
@@ -211,7 +211,7 @@ function selectSuggestion(suggestion) {
   }
 }
 
-// Esegui ricerca nel catalogo
+// Esegui ricerca negli effetti
 function performSearch(query, filters) {
   const resultsContainer = $('fxList');
   if (!resultsContainer) return;
