@@ -209,7 +209,7 @@ $("btnResetAll")?.addEventListener("click", () => {
     }
     
     alert('Tutti i dati sono stati cancellati. L\'app verrà riavviata.');
-    setTimeout(() => location.href = '../index.html', 500);
+    setTimeout(() => location.href = '../', 500);
   }
 });
 

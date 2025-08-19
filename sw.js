@@ -4,23 +4,32 @@ const DYNAMIC_CACHE = 'spellbook-dynamic-v1.0';
 
 // Risorse statiche da precaricare
 const STATIC_ASSETS = [
-  './',
-  './index.html',
-  './manifest.json',
-  './assets/css/tokens.css',
-  './assets/css/base.css',
-  './assets/js/core/utils.js',
-  './assets/js/core/state.js',
-  './assets/js/core/ui.js',
-  './assets/js/core/search.js',
-  './assets/js/core/search-ui.js',
-  './home.js',
-  './effects/index.html','./effects/list.js','./effects/details.html','./effects/details.js','./effects/add.html','./effects/add.js',
-  './routine/index.html','./routine/routine.js',
-  './show/index.html','./show/show.js',
-  './practice/index.html','./practice/practice.js',
-  './settings/index.html','./settings/settings.js',
-  './assets/img/favicon.svg'
+  '/',
+  '/index.html',
+  '/manifest.json',
+  '/assets/css/tokens.css',
+  '/assets/css/base.css',
+  '/assets/js/core/utils.js',
+  '/assets/js/core/state.js',
+  '/assets/js/core/ui.js',
+  '/assets/js/core/search.js',
+  '/assets/js/core/search-ui.js',
+  '/home.js',
+  '/effects/index.html',
+  '/effects/list.js',
+  '/effects/details.html',
+  '/effects/details.js',
+  '/effects/add.html',
+  '/effects/add.js',
+  '/routine/index.html',
+  '/routine/routine.js',
+  '/show/index.html',
+  '/show/show.js',
+  '/practice/index.html',
+  '/practice/practice.js',
+  '/settings/index.html',
+  '/settings/settings.js',
+  '/assets/img/favicon.svg'
 ];
 
 // Pagine di fallback
@@ -40,7 +49,7 @@ const FALLBACK_HTML = `
       <h1>Offline</h1>
       <p>Sei offline e questa pagina non è disponibile nella cache.</p>
       <p>Verifica la connessione e riprova.</p>
-      <a href="./index.html" class="btn btn-primary">Torna alla home</a>
+      <a href="/" class="btn btn-primary">Torna alla home</a>
     </div>
   </main>
 </body>
@@ -97,8 +106,7 @@ self.addEventListener('fetch', event => {
   const requestUrl = new URL(request.url);
   
   // Strategia: Cache con fallback alla rete per le risorse statiche
-  if (STATIC_ASSETS.some(asset => 
-      requestUrl.pathname.endsWith(asset) || asset === requestUrl.pathname)) {
+  if (STATIC_ASSETS.includes(requestUrl.pathname)) {
     event.respondWith(
       caches.match(request)
         .then(cachedResponse => {
