@@ -1,6 +1,11 @@
 import { qsa, qs, trapFocus } from "./utils.js";
 import { getState, setTheme } from "./state.js";
-document.documentElement.setAttribute("data-theme", getState().theme);
+setTheme(getState().theme);
+function updateThemeButtons(){
+  const current = document.documentElement.getAttribute('data-theme');
+  qsa('.themeBtn').forEach(b=> b.setAttribute('aria-pressed', b.dataset.theme === current ? 'true' : 'false'));
+}
+updateThemeButtons();
 // Drawer + focus trap
 const drawer = qs("#drawer"); const openD = qs("#openDrawer"); const closeD = qs("#closeDrawer"); let untrap=null;
 if(openD && drawer && closeD){
@@ -28,7 +33,7 @@ if(drawer){
 qsa(".themeBtn").forEach(btn=>{
   btn.addEventListener("click", ()=>{
     setTheme(btn.dataset.theme);
-    qsa('.themeBtn').forEach(b=> b.setAttribute('aria-pressed', String(b===btn)));
+    updateThemeButtons();
     const sel = qs("#setTheme"); if(sel) sel.value = btn.dataset.theme;
   });
 });
