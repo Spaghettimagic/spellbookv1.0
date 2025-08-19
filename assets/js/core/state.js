@@ -2,7 +2,7 @@ const LS_KEY = "spellbook.state.v4";
 
 let defaultState;
 try {
-  const res = await fetch("../../../data/default-state.json");
+  const res = await fetch("/data/default-state.json");
   defaultState = await res.json();
 } catch (e) {
   defaultState = {
@@ -22,14 +22,19 @@ try {
   state = defaultState;
 }
 
-try {
-  const res = await fetch('/api/effects');
-  const effects = await res.json();
-  state.effects = effects;
-  saveState();
-} catch (e) {
-  console.error('Impossibile caricare gli effetti dal server', e);
+export async function fetchEffects() {
+  try {
+    const res = await fetch('/api/effects');
+    if (!res.ok) throw new Error('Failed to fetch');
+    const effects = await res.json();
+    state.effects = effects;
+    saveState();
+  } catch (e) {
+    console.error('Impossibile caricare gli effetti dal server', e);
+  }
 }
+
+fetchEffects();
 
 export function getState() { return state; }
 export function saveState() { localStorage.setItem(LS_KEY, JSON.stringify(state)); }
@@ -64,14 +69,12 @@ export async function addEffect(effect) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(effect)
   });
-  state.effects.unshift(effect);
-  saveState();
+  await fetchEffects();
 }
 
 export async function deleteEffect(id) {
   await fetch(`/api/effects/${id}`, { method: 'DELETE' });
-  state.effects = state.effects.filter(e => e.id !== id);
-  saveState();
+  await fetchEffects();
 }
 
 export async function overwriteEffects(effects) {
@@ -80,8 +83,7 @@ export async function overwriteEffects(effects) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(effects)
   });
-  state.effects = effects;
-  saveState();
+  await fetchEffects();
 }
 export function overwriteRoutine(items) { state.routine = items; saveState(); }
 export default { getState, saveState, setTheme, setProtect, addEffect, deleteEffect, overwriteEffects, overwriteRoutine };

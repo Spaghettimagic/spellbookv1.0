@@ -1,9 +1,14 @@
-const express = require('express');
-const fs = require('fs').promises;
-const path = require('path');
+import express from 'express';
+import fs from 'fs/promises';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 app.use(express.json());
+app.use(express.static(path.join(__dirname)));
 
 const DATA_FILE = path.join(__dirname, 'data', 'effects.json');
 
@@ -49,10 +54,10 @@ app.delete('/api/effects/:id', async (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 
-if (require.main === module) {
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
   app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
   });
 }
 
-module.exports = app;
+export default app;
