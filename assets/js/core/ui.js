@@ -1,5 +1,6 @@
 import { qsa, qs, trapFocus } from "./utils.js";
 import { getState, setTheme } from "./state.js";
+import { initReveal } from "./reveal.js";
 setTheme(getState().theme);
 function updateThemeButtons(){
   const current = document.documentElement.getAttribute('data-theme');
@@ -41,3 +42,5 @@ qsa(".themeBtn").forEach(btn=>{
 if('serviceWorker' in navigator && /^https?:/.test(location.protocol)){
   navigator.serviceWorker.register(new URL((document.querySelector('meta[name="sw-path"]').content||'sw.js'), document.baseURI), {scope: './'}).catch(()=>{});
 }
+// Reveal surfaces on scroll
+initReveal();

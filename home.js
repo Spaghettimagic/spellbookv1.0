@@ -279,9 +279,12 @@ function refreshHome(){
   const recent = $("homeRecent"); 
   recent.innerHTML = "";
   
-  s.effects.slice(0, 6).forEach(fx => { 
-    const el = document.createElement("div"); 
-    el.className = "card";
+  s.effects.slice(0, 6).forEach((fx, i) => {
+    const el = document.createElement("div");
+    let cls = "card";
+    if(i===0) cls += " card--wide";
+    else if(i===1) cls += " card--tall";
+    el.className = cls;
     el.innerHTML = `
       <div class="center" style="width:56px;height:56px;border:1px solid var(--border);border-radius:12px;background:var(--surface-2)">
         <svg class="icon" style="color:var(--accent)"><use href="#ic-book"/></svg>
