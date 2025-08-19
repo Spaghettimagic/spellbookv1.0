@@ -10,6 +10,7 @@ p,li,code,pre{font-size:var(--f-b)} small{font-size:var(--f-cap);color:var(--mut
 .auto-grid{display:grid;gap:clamp(12px,2.5vw,28px);grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr))}
 .auto-grid-sm{display:grid;gap:clamp(10px,2vw,24px);grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr))}
 .cluster{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.cluster .btn{align-self:stretch}
 .stack{display:grid;gap:12px}
 .center{display:grid;place-items:center}
 /* Top bar */
