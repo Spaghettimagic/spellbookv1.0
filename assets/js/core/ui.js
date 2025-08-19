@@ -2,7 +2,8 @@ import { qsa, qs, trapFocus } from "./utils.js";
 import { getState, setTheme } from "./state.js";
 import { initReveal } from "./reveal.js";
 
-setTheme(getState().theme);
+const storedTheme = localStorage.getItem('ms.theme') || getState().theme;
+setTheme(storedTheme);
 
 // Initialize accent color from localStorage
 const storedAccent = localStorage.getItem('ms.accent');
