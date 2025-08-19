@@ -1,7 +1,7 @@
 {
   "name": "Midnight Spellbook",
   "short_name": "Spellbook",
-  "start_url": "./index.html",
+  "start_url": "/",
   "display": "standalone",
   "scope": "./",
   "theme_color": "#0B0B0D",
@@ -57,14 +57,14 @@
       "name": "Show Mode",
       "short_name": "Show",
       "description": "Avvia modalità show",
-      "url": "./show/index.html",
+        "url": "/show/index.html",
       "icons": [{ "src": "./assets/img/favicon.svg", "sizes": "192x192" }]
     },
     {
       "name": "Effetti",
       "short_name": "Effetti",
       "description": "Visualizza gli effetti",
-      "url": "./effects/index.html",
+        "url": "/effects/index.html",
       "icons": [{ "src": "./assets/img/favicon.svg", "sizes": "192x192" }]
     }
   ]
