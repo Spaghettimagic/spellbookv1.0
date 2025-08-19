@@ -1,30 +1,42 @@
 import { readEffects, writeEffects } from '../models/effectsModel.js';
+import AppError from '../utils/appError.js';
+import { sanitizeString } from '../utils/sanitize.js';
 
 export function validateEffect(effect) {
-  if (!effect || typeof effect !== 'object') return { ok:false, error:'Effect must be an object' };
-  if (typeof effect.title !== 'string' || !effect.title.trim()) return { ok:false, error:'Title is required' };
-  return { ok:true };
+  if (!effect || typeof effect !== 'object') throw new AppError('Effect must be an object', 400);
+  if (typeof effect.title !== 'string' || !effect.title.trim()) throw new AppError('Title is required', 400);
 }
 
-export async function getEffects() { return await readEffects(); }
+function sanitizeEffect(effect) {
+  return { ...effect, title: sanitizeString(effect.title) };
+}
+
+export async function getEffects() {
+  return await readEffects();
+}
 
 export async function addEffect(effect) {
-  const v = validateEffect(effect);
-  if (!v.ok) throw new Error(v.error);
+  validateEffect(effect);
+  const sanitized = sanitizeEffect(effect);
   const effects = await readEffects();
-  effects.unshift(effect);
+  effects.unshift(sanitized);
   await writeEffects(effects);
-  return effect;
+  return sanitized;
 }
 
 export async function overwriteAllEffects(effects) {
-  if (!Array.isArray(effects)) throw new Error('Effects payload must be an array');
-  await writeEffects(effects);
+  if (!Array.isArray(effects)) throw new AppError('Effects payload must be an array', 400);
+  const sanitized = effects.map((e) => {
+    validateEffect(e);
+    return sanitizeEffect(e);
+  });
+  await writeEffects(sanitized);
 }
 
 export async function deleteEffectById(id) {
   const effects = await readEffects();
-  await writeEffects(effects.filter(e => e.id !== id));
+  const filtered = effects.filter((e) => e.id !== id);
+  await writeEffects(filtered);
 }
 
 export default { validateEffect, getEffects, addEffect, overwriteAllEffects, deleteEffectById };
