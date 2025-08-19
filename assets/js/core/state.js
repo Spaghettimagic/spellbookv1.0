@@ -33,8 +33,22 @@ try {
 
 export function getState() { return state; }
 export function saveState() { localStorage.setItem(LS_KEY, JSON.stringify(state)); }
+let systemThemeMql;
+function applySystemTheme(e){
+  document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+}
 export function setTheme(t) {
-  document.documentElement.setAttribute('data-theme', t);
+  if(systemThemeMql){
+    systemThemeMql.removeEventListener('change', applySystemTheme);
+    systemThemeMql = null;
+  }
+  if(t === 'auto'){
+    systemThemeMql = window.matchMedia('(prefers-color-scheme: dark)');
+    applySystemTheme(systemThemeMql);
+    systemThemeMql.addEventListener('change', applySystemTheme);
+  } else {
+    document.documentElement.setAttribute('data-theme', t);
+  }
   localStorage.setItem('ms.theme', t);
   state.theme = t;
   saveState();

@@ -11,10 +11,11 @@ const themeSelect = $("setTheme");
 themeSelect.value = getState().theme;
 themeSelect.addEventListener("change", () => {
   setTheme(themeSelect.value);
-  
+
   // Aggiorna i pulsanti del tema
+  const current = document.documentElement.getAttribute('data-theme');
   document.querySelectorAll('.themeBtn').forEach(btn => {
-    btn.setAttribute('aria-pressed', btn.dataset.theme === themeSelect.value ? 'true' : 'false');
+    btn.setAttribute('aria-pressed', btn.dataset.theme === current ? 'true' : 'false');
   });
 });
 
