@@ -1,5 +1,6 @@
 import { initGlobalSearch } from "../assets/js/core/search-ui.js";
 import { getState, setProtect, setTheme } from "../assets/js/core/state.js";
+import { setAccentColor } from "../assets/js/core/ui.js";
 import { $, downloadJSON, importJSON, onKeySlashFocus, wireActiveNav } from "../assets/js/core/utils.js";
 
 wireActiveNav();
@@ -227,12 +228,6 @@ function calculateStorageUsage() {
 // Applica dimensione del testo
 function applyFontSize(value) {
   document.documentElement.style.setProperty('--fontSize-scale', `${value}%`);
-}
-
-// Imposta colore principale
-function setAccentColor(color) {
-  document.documentElement.style.setProperty('--accent', color);
-  localStorage.setItem('ms.accent', color);
 }
 
 // Inizializza colore accent

@@ -1,7 +1,21 @@
 import { qsa, qs, trapFocus } from "./utils.js";
 import { getState, setTheme } from "./state.js";
 import { initReveal } from "./reveal.js";
+
 setTheme(getState().theme);
+
+// Initialize accent color from localStorage
+const storedAccent = localStorage.getItem('ms.accent');
+if (storedAccent) {
+  document.documentElement.style.setProperty('--accent', storedAccent);
+}
+
+// Export helper to change accent color
+export function setAccentColor(color) {
+  document.documentElement.style.setProperty('--accent', color);
+  localStorage.setItem('ms.accent', color);
+}
+
 function updateThemeButtons(){
   const current = document.documentElement.getAttribute('data-theme');
   qsa('.themeBtn').forEach(b=> b.setAttribute('aria-pressed', b.dataset.theme === current ? 'true' : 'false'));
