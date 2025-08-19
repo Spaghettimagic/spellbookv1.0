@@ -22,16 +22,10 @@ p,li,code,pre{font-size:var(--f-b)} small{font-size:var(--f-cap);color:var(--mut
 .brand{display:flex;align-items:center;gap:10px}
 .brand .wordmark{font-weight:800;letter-spacing:.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .nav-actions{display:flex;gap:8px;align-items:center}
-.burger{display:none}
 @media (max-width: 768px){
-  .nav-actions{display:none}
   .topbar-inner{padding:8px max(12px,2vw)}
   .brand .wordmark{max-width:min(70vw,240px)}
 }
-/* Drawer */
-.drawer{position:fixed;inset:0 0 0 auto;width:min(360px,92vw);transform:translateX(100%);transition:transform var(--dur-drawer) var(--ease);background:var(--surface);border-left:1px solid var(--border);box-shadow:var(--e4);padding:20px;z-index:30;overflow-y:auto;padding-bottom:calc(20px + var(--safe-b) + 70px)}
-.drawer.show{transform:translateX(0)}
-.drawer .btn-ghost{padding:14px 16px}
 /* Bottom nav */
 .bottombar{position:fixed;bottom:0;left:0;right:0;background:var(--surface-2);border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(5,1fr);padding:0;border-radius:20px 20px 0 0;box-shadow:0 -8px 16px rgba(0,0,0,.25);z-index:50}
 .bottombar a{display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 6px;padding-bottom:calc(12px + var(--safe-b));text-align:center}
@@ -41,14 +35,8 @@ p,li,code,pre{font-size:var(--f-b)} small{font-size:var(--f-cap);color:var(--mut
 @media (max-width:380px){ .bottombar small{font-size:10px} }
 @media (max-width:340px){ .bottombar small{display:none} }
 
-/* Layout + sidebar on desktop */
-.layout{display:block}
 @media (min-width:768px){
-  .layout{display:flex;align-items:flex-start}
-  .layout .drawer{position:sticky;top:0;transform:none;width:260px;border-left:none;border-right:1px solid var(--border);box-shadow:none;height:100vh;padding-bottom:20px}
-  .layout main{flex:1}
   .wrap{padding-bottom:40px}
-  #closeDrawer{display:none}
   .bottombar{display:none}
 }
 /* Buttons */
@@ -173,4 +161,4 @@ mark{background:color-mix(in oklab,var(--accent),transparent 70%);color:inherit;
 .icon{width:24px;height:24px;flex-shrink:0}
 img, svg, video{max-width:100%;height:auto;display:block}
 /* Print */
-@media print{.topbar,.bottombar,.drawer{display:none!important};body{color:#111;background:#fff}}
+@media print{.topbar,.bottombar{display:none!important};body{color:#111;background:#fff}}
