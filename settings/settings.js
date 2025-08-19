@@ -120,22 +120,24 @@ $("btnBackupData")?.addEventListener("click", () => {
 
 // Salva impostazioni
 $("btnSaveSettings")?.addEventListener("click", () => {
-  const settings = {
-    theme: themeSelect.value,
-    protect: protectSelect.value,
-    fontSize: fontSizeRange.value,
-    offline: offlineModeSelect.value,
-    notifications: notificationsSelect.value,
-    scriptProtection: scriptProtectionSelect.value,
-    showMarkers: showMarkersToggle?.checked ? 'on' : 'off',
-    sections: {
-      upcoming: $("toggleUpcoming")?.checked,
-      recent: $("toggleRecent")?.checked,
-      stats: $("toggleStats")?.checked,
-      history: $("toggleHistory")?.checked
-    }
-  };
-  downloadJSON("settings.json", settings);
+  setTheme(themeSelect.value);
+  setProtect(protectSelect.value);
+  localStorage.setItem('ms.fontSize', fontSizeRange.value);
+  applyFontSize(fontSizeRange.value);
+  localStorage.setItem('ms.offline', offlineModeSelect.value);
+  localStorage.setItem('ms.notifications', notificationsSelect.value);
+  if (notificationsSelect.value === 'on' && 'Notification' in window) {
+    Notification.requestPermission();
+  }
+  localStorage.setItem('ms.scriptProtection', scriptProtectionSelect.value);
+  if (showMarkersToggle) {
+    localStorage.setItem('ms.showMarkers', showMarkersToggle.checked ? 'on' : 'off');
+  }
+  sectionToggles.forEach(({ id, key }) => {
+    const el = $(id);
+    if (el) localStorage.setItem(`ms.${key}`, el.checked ? 'on' : 'off');
+  });
+  alert('Impostazioni salvate.');
 });
 
 // Importazione dati
