@@ -23,11 +23,10 @@ p,li,code,pre{font-size:var(--f-b)} small{font-size:var(--f-cap);color:var(--mut
 .brand .wordmark{font-weight:800;letter-spacing:.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .nav-actions{display:flex;gap:8px;align-items:center}
 .burger{display:none}
-@media (max-width: 768px){ 
-  .nav-actions{display:none} 
-  .burger{display:inline-flex}
+@media (max-width: 768px){
+  .nav-actions{display:none}
   .topbar-inner{padding:8px max(12px,2vw)}
-  .brand .wordmark{max-width:min(70vw,240px)} 
+  .brand .wordmark{max-width:min(70vw,240px)}
 }
 /* Drawer */
 .drawer{position:fixed;inset:0 0 0 auto;width:min(360px,92vw);transform:translateX(100%);transition:transform var(--dur-drawer) var(--ease);background:var(--surface);border-left:1px solid var(--border);box-shadow:var(--e4);padding:20px;z-index:30;overflow-y:auto;padding-bottom:calc(20px + var(--safe-b) + 70px)}

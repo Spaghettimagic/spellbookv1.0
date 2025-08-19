@@ -39,8 +39,16 @@ fetchEffects();
 export function getState() { return state; }
 export function saveState() { localStorage.setItem(LS_KEY, JSON.stringify(state)); }
 let systemThemeMql;
+function updateMetaTheme(){
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if(meta){
+    const color = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim();
+    meta.setAttribute('content', color);
+  }
+}
 function applySystemTheme(e){
   document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+  updateMetaTheme();
 }
 export function setTheme(t) {
   if(systemThemeMql){
@@ -53,6 +61,7 @@ export function setTheme(t) {
     systemThemeMql.addEventListener('change', applySystemTheme);
   } else {
     document.documentElement.setAttribute('data-theme', t);
+    updateMetaTheme();
   }
   localStorage.setItem('ms.theme', t);
   state.theme = t;
