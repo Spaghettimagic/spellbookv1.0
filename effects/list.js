@@ -17,7 +17,7 @@ $("importFx")?.addEventListener("change", async (e) => {
     if (!e.target.files.length) return;
     const data = await importJSON(e.target.files[0]);
     if (Array.isArray(data)) {
-      overwriteEffects(data);
+      await overwriteEffects(data);
       refreshCatalog();
     }
   } catch(err) {
