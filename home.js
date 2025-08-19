@@ -195,112 +195,116 @@ function generateCategoryChart() {
   });
 }
 
-// Aggiorna la pagina home
-function refreshHome(){
-  const s = getState();
+function isSectionVisible(key) {
+  return localStorage.getItem(key) !== 'off';
+}
 
-  const showUpcoming = localStorage.getItem('ms.sectionUpcoming') !== 'off';
-  const showRecent = localStorage.getItem('ms.sectionRecent') !== 'off';
-  const showStats = localStorage.getItem('ms.sectionStats') !== 'off';
-  const showHistory = localStorage.getItem('ms.sectionHistory') !== 'off';
+function toggleHomeSections() {
+  const sections = [
+    { id: 'sectionUpcoming', key: 'ms.sectionUpcoming' },
+    { id: 'sectionRecent', key: 'ms.sectionRecent' },
+    { id: 'sectionStats', key: 'ms.sectionStats' },
+    { id: 'sectionHistory', key: 'ms.sectionHistory' }
+  ];
+  sections.forEach(({ id, key }) => {
+    $(id).style.display = isSectionVisible(key) ? '' : 'none';
+  });
+}
 
-  $("sectionUpcoming").style.display = showUpcoming ? "" : "none";
-  $("sectionRecent").style.display = showRecent ? "" : "none";
-  $("sectionStats").style.display = showStats ? "" : "none";
-  $("sectionHistory").style.display = showHistory ? "" : "none";
+function getSortedEvents(state) {
+  return [...state.events].sort((a, b) => a.date.localeCompare(b.date));
+}
 
-  const list = $("homeUpcoming");
-  list.innerHTML = "";
-  
-  // Ordina gli eventi per data
-  const sortedEvents = [...s.events].sort((a, b) => a.date.localeCompare(b.date));
-  
-  // Ottieni la data di oggi e domani
-  const today = new Date();
-  const todayStr = today.toISOString().slice(0, 10);
-  const tomorrow = new Date(today);
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  const tomorrowStr = tomorrow.toISOString().slice(0, 10);
-  
-  // Identifica eventi di oggi e domani
-  const todayEvents = sortedEvents.filter(e => e.date === todayStr);
-  const tomorrowEvents = sortedEvents.filter(e => e.date === tomorrowStr);
-  
-  // Mostra toast se ci sono eventi oggi o domani
+function notifyUpcomingEvents(todayEvents, tomorrowEvents) {
   setTimeout(() => {
-    // Mostra notifica per eventi di oggi
     if (todayEvents.length > 0) {
       showToast(`Hai uno show oggi: ${todayEvents[0].title}`, {
         type: 'info',
         duration: 6000,
         action: {
           text: 'Apri',
-          callback: () => {
-            // Vai alla modalità show o alla pagina eventi
-            window.location.href = 'show/index.html';
-          }
+          callback: () => { window.location.href = 'show/index.html'; }
         }
       });
-    }
-    
-    // Mostra notifica per eventi di domani (solo se non ci sono eventi oggi)
-    else if (tomorrowEvents.length > 0) {
+    } else if (tomorrowEvents.length > 0) {
       showToast(`Show domani: ${tomorrowEvents[0].title}`, {
         type: 'info',
         duration: 5000
       });
     }
   }, 1500);
-  
-  // Popola la lista degli eventi imminenti
-  sortedEvents.slice(0, 4).forEach(ev => {
+}
+
+function renderUpcomingEvents(state) {
+  const list = $("homeUpcoming");
+  list.innerHTML = "";
+  const sortedEvents = getSortedEvents(state);
+
+  const today = new Date();
+  const todayStr = today.toISOString().slice(0, 10);
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const tomorrowStr = tomorrow.toISOString().slice(0, 10);
+
+  const todayEvents = sortedEvents.filter(event => event.date === todayStr);
+  const tomorrowEvents = sortedEvents.filter(event => event.date === tomorrowStr);
+  notifyUpcomingEvents(todayEvents, tomorrowEvents);
+
+  sortedEvents.slice(0, 4).forEach(event => {
     const li = document.createElement("li");
 
-    if (ev.date === todayStr) {
+    if (event.date === todayStr) {
       li.style.background = "color-mix(in oklab,var(--accent),transparent 85%)";
       li.style.fontWeight = "bold";
-    }
-    else if (ev.date === tomorrowStr) {
+    } else if (event.date === tomorrowStr) {
       li.style.background = "color-mix(in oklab,var(--surface),var(--accent) 5%)";
     }
 
-    const note = ev.date === todayStr
+    const note = event.date === todayStr
       ? '<span class="chip" style="background:var(--accent);color:var(--bg)">OGGI</span>'
-      : ev.date === tomorrowStr
+      : event.date === tomorrowStr
         ? '<span class="chip">DOMANI</span>'
         : '—';
 
-    li.innerHTML = `<span>${ev.date}</span><span>${ev.title}</span><span>${note}</span>`;
-
+    li.innerHTML = `<span>${event.date}</span><span>${event.title}</span><span>${note}</span>`;
     list.appendChild(li);
   });
-  
-  // Popola gli effetti recenti
-  const recent = $("homeRecent"); 
+}
+
+function renderRecentEffects(state) {
+  const recent = $("homeRecent");
   recent.innerHTML = "";
-  
-  s.effects.slice(0, 6).forEach((fx, i) => {
+
+  state.effects.slice(0, 6).forEach((effect, index) => {
     const el = document.createElement("div");
     let cls = "card";
-    if(i===0) cls += " card--wide";
-    else if(i===1) cls += " card--tall";
+    if (index === 0) cls += " card--wide";
+    else if (index === 1) cls += " card--tall";
     el.className = cls;
     el.innerHTML = `
       <div class="center" style="width:56px;height:56px;border:1px solid var(--border);border-radius:12px;background:var(--surface-2)">
         <svg class="icon" style="color:var(--accent)"><use href="#ic-book"/></svg>
       </div>
-      <h4>${fx.title}</h4>
-      <a class="btn btn-secondary" href="effects/details.html?id=${encodeURIComponent(fx.id)}">
+      <h4>${effect.title}</h4>
+      <a class="btn btn-secondary" href="effects/details.html?id=${encodeURIComponent(effect.id)}">
         <svg class="icon"><use href="#ic-chevron-right"/></svg> Dettagli
       </a>
-      <p class="meta clamp-2">${fx.summary}</p>
+      <p class="meta clamp-2">${effect.summary}</p>
       <div class="cluster">
-        <span class="chip">${fx.cat}</span>
-        <span class="chip">${fmtSec(fx.duration)}</span>
+        <span class="chip">${effect.cat}</span>
+        <span class="chip">${fmtSec(effect.duration)}</span>
       </div>
     `;
     recent.appendChild(el);
   });
+}
+
+// Aggiorna la pagina home
+function refreshHome(){
+  const state = getState();
+  toggleHomeSections();
+  renderUpcomingEvents(state);
+  renderRecentEffects(state);
 }
 
 // Aggiorna statistiche visualizzate
