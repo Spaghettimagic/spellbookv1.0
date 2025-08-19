@@ -17,7 +17,6 @@
   <!-- SVG SPRITE -->
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <symbol id="ic-bars" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
   <symbol id="ic-home" viewBox="0 0 24 24"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="ic-book" viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="ic-list" viewBox="0 0 24 24"><path d="M3 12h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 18h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 6h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 12h13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 18h13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 6h13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
@@ -34,8 +33,7 @@
   <div class="topbar">
     <div class="topbar-inner">
       <div class="brand">
-        <button class="btn btn-secondary burger" id="openDrawer" aria-label="Apri menu"><svg class="icon"><use href="#ic-bars"/></svg></button>
-        <span class="wordmark">Midnight <strong style="color:var(--accent)">Spell</strong> — Impostazioni</span>
+                <span class="wordmark">Midnight <strong style="color:var(--accent)">Spell</strong> — Impostazioni</span>
       </div>
       <div class="nav-actions">
         <div class="theme-selector" role="group" aria-label="Tema">
@@ -50,23 +48,7 @@
       </div>
     </div>
   </div>
-
-  <div class="layout">
-    <aside class="drawer" id="drawer" aria-label="Menu" aria-hidden="true" tabindex="-1">
-    <div class="cluster" style="justify-content:space-between">
-      <strong>Menu</strong>
-      <button class="btn btn-secondary" id="closeDrawer">Chiudi</button>
-    </div>
-    <nav class="stack" style="margin-top:12px">
-      <a class="btn btn-ghost" href="../"><svg class="icon"><use href="#ic-home"/></svg> Home</a>
-      <a class="btn btn-ghost" href="../effects/index.html"><svg class="icon"><use href="#ic-book"/></svg> Effetti</a>
-      <a class="btn btn-ghost" href="../routine/index.html"><svg class="icon"><use href="#ic-list"/></svg> Routine</a>
-      <a class="btn btn-ghost" href="../show/index.html"><svg class="icon"><use href="#ic-theatre"/></svg> Show Mode</a>
-      <a class="btn btn-ghost" href="../practice/index.html"><svg class="icon"><use href="#ic-practice"/></svg> Practice</a>
-      <a class="btn btn-ghost" href="../settings/index.html"><svg class="icon"><use href="#ic-gear"/></svg> Impostazioni</a>
-    </nav>
-    </aside>
-    <main id="contenuto" class="wrap">
+  <main id="contenuto" class="wrap">
     
 <section class="stack">
   <header class="surface">
@@ -236,9 +218,7 @@
     <p class="meta">Il reset completo cancellerà tutti i dati salvati e riporterà l'app allo stato iniziale.</p>
   </div>
 </section>
-
     </main>
-  </div>
   
   <nav class="bottombar" aria-label="Navigazione principale" id="bottomNav">
     <a href="../" aria-label="Home"><svg class="icon"><use href="#ic-home"/></svg><small>Home</small></a>
