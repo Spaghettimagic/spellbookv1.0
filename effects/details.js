@@ -1,5 +1,5 @@
 import { initGlobalSearch } from "../assets/js/core/search-ui.js";
-import { getState } from "../assets/js/core/state.js";
+import { getState, deleteEffect } from "../assets/js/core/state.js";
 import { $, fmtSec, onKeySlashFocus, wireActiveNav } from "../assets/js/core/utils.js";
 
 wireActiveNav();
@@ -155,11 +155,10 @@ $('#btnShare').addEventListener('click', () => {
 $('#btnDelete').addEventListener('click', () => {
   if (!currentEffect || !confirm(`Sei sicuro di voler eliminare l'effetto "${currentEffect.title}"?`)) return;
   
-  const state = getState();
-  const newEffects = state.effects.filter(e => e.id !== currentEffect.id);
-  localStorage.setItem('spellbook.state.v4', JSON.stringify({...state, effects: newEffects}));
-  alert('Effetto eliminato con successo');
-  window.location.href = 'index.html';
+  deleteEffect(currentEffect.id).then(() => {
+    alert('Effetto eliminato con successo');
+    window.location.href = 'index.html';
+  });
 });
 
 // Edit effetto

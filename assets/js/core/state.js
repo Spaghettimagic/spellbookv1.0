@@ -22,6 +22,15 @@ try {
   state = defaultState;
 }
 
+try {
+  const res = await fetch('/api/effects');
+  const effects = await res.json();
+  state.effects = effects;
+  saveState();
+} catch (e) {
+  console.error('Impossibile caricare gli effetti dal server', e);
+}
+
 export function getState() { return state; }
 export function saveState() { localStorage.setItem(LS_KEY, JSON.stringify(state)); }
 export function setTheme(t) {
@@ -35,6 +44,30 @@ export function setProtect(p) {
   state.protect = p;
   saveState();
 }
-export function overwriteEffects(effects) { state.effects = effects; saveState(); }
+export async function addEffect(effect) {
+  await fetch('/api/effects', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(effect)
+  });
+  state.effects.unshift(effect);
+  saveState();
+}
+
+export async function deleteEffect(id) {
+  await fetch(`/api/effects/${id}`, { method: 'DELETE' });
+  state.effects = state.effects.filter(e => e.id !== id);
+  saveState();
+}
+
+export async function overwriteEffects(effects) {
+  await fetch('/api/effects', {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(effects)
+  });
+  state.effects = effects;
+  saveState();
+}
 export function overwriteRoutine(items) { state.routine = items; saveState(); }
-export default { getState, saveState, setTheme, setProtect, overwriteEffects, overwriteRoutine };
+export default { getState, saveState, setTheme, setProtect, addEffect, deleteEffect, overwriteEffects, overwriteRoutine };
