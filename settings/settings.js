@@ -9,7 +9,7 @@ initGlobalSearch();
 
 // Gestione tema
 const themeSelect = $("setTheme");
-themeSelect.value = getState().theme;
+themeSelect.value = localStorage.getItem('ms.theme') || getState().theme;
 themeSelect.addEventListener("change", () => {
   setTheme(themeSelect.value);
 
