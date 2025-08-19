@@ -1,28 +1,24 @@
 import { getEffects, addEffect, overwriteAllEffects, deleteEffectById } from '../services/effectsService.js';
+import asyncHandler from '../middlewares/asyncHandler.js';
 
-function handleError(res, status, err, message = err.message) {
-  console.error(err);
-  res.status(status).json({ error: message });
-}
+export const listEffects = asyncHandler(async (req, res) => {
+  const effects = await getEffects();
+  res.json(effects);
+});
 
-export async function listEffects(req, res) {
-  try { res.json(await getEffects()); }
-  catch (err) { handleError(res, 500, err, 'Failed to retrieve effects'); }
-}
+export const createEffect = asyncHandler(async (req, res) => {
+  const effect = await addEffect(req.body);
+  res.status(201).json(effect);
+});
 
-export async function createEffect(req, res) {
-  try { res.status(201).json(await addEffect(req.body)); }
-  catch (err) { handleError(res, 400, err); }
-}
+export const replaceEffects = asyncHandler(async (req, res) => {
+  await overwriteAllEffects(Array.isArray(req.body) ? req.body : []);
+  res.json({ ok: true });
+});
 
-export async function replaceEffects(req, res) {
-  try { await overwriteAllEffects(Array.isArray(req.body) ? req.body : []); res.json({ ok:true }); }
-  catch (err) { handleError(res, 400, err); }
-}
-
-export async function removeEffect(req, res) {
-  try { await deleteEffectById(req.params.id); res.json({ ok:true }); }
-  catch (err) { handleError(res, 400, err); }
-}
+export const removeEffect = asyncHandler(async (req, res) => {
+  await deleteEffectById(req.params.id);
+  res.json({ ok: true });
+});
 
 export default { listEffects, createEffect, replaceEffects, removeEffect };

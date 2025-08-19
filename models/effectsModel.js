@@ -1,11 +1,6 @@
 import fs from 'fs/promises';
 import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const defaultDataPath = path.join(__dirname, '..', 'data', 'effects.json');
-const DATA_FILE = process.env.DATA_FILE || defaultDataPath;
+import { DATA_FILE } from '../config/index.js';
 
 let cache = null;
 
