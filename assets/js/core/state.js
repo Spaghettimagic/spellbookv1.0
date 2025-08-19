@@ -1,98 +1,44 @@
-const LS_KEY = "spellbook.state.v4";
+import { validateEffects } from './utils.js';
+const STORAGE_KEY = 'spellbook.state.v5';
 
-let defaultState;
-try {
-  const res = await fetch("/data/default-state.json");
-  defaultState = await res.json();
-} catch (e) {
-  defaultState = {
-    theme: "dark",
-    protect: "on",
-    effects: [],
-    routine: [],
-    routineNotes: "",
-    events: []
-  };
-}
+function getDefaultState(){ return { effects:[], events:[] }; }
 
-let state;
-try {
-  state = JSON.parse(localStorage.getItem(LS_KEY)) || defaultState;
-} catch {
-  state = defaultState;
-}
-
-export async function fetchEffects() {
+export function getState(){
   try {
-    const res = await fetch('/api/effects');
-    if (!res.ok) throw new Error('Failed to fetch');
-    const effects = await res.json();
-    state.effects = effects;
-    saveState();
-  } catch (e) {
-    console.error('Impossibile caricare gli effetti dal server', e);
-  }
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : getDefaultState();
+  } catch { return getDefaultState(); }
 }
 
-fetchEffects();
-
-export function getState() { return state; }
-export function saveState() { localStorage.setItem(LS_KEY, JSON.stringify(state)); }
-let systemThemeMql;
-function updateMetaTheme(){
-  const meta = document.querySelector('meta[name="theme-color"]');
-  if(meta){
-    const color = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim();
-    meta.setAttribute('content', color);
-  }
-}
-function applySystemTheme(e){
-  document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
-  updateMetaTheme();
-}
-export function setTheme(t) {
-  if(systemThemeMql){
-    systemThemeMql.removeEventListener('change', applySystemTheme);
-    systemThemeMql = null;
-  }
-  if(t === 'auto'){
-    systemThemeMql = window.matchMedia('(prefers-color-scheme: dark)');
-    applySystemTheme(systemThemeMql);
-    systemThemeMql.addEventListener('change', applySystemTheme);
-  } else {
-    document.documentElement.setAttribute('data-theme', t);
-    updateMetaTheme();
-  }
-  localStorage.setItem('ms.theme', t);
-  state.theme = t;
-  saveState();
-}
-export function setProtect(p) {
-  localStorage.setItem('ms.protect', p);
-  state.protect = p;
-  saveState();
-}
-export async function addEffect(effect) {
-  await fetch('/api/effects', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(effect)
-  });
-  await fetchEffects();
+export function saveState(s){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(s));
 }
 
-export async function deleteEffect(id) {
-  await fetch(`/api/effects/${id}`, { method: 'DELETE' });
-  await fetchEffects();
+export async function fetchEffects(){
+  const res = await fetch('/api/effects');
+  if(!res.ok) throw new Error('Failed to fetch effects');
+  const list = await res.json();
+  const s = getState(); s.effects = list; saveState(s);
+  return list;
 }
 
-export async function overwriteEffects(effects) {
-  await fetch('/api/effects', {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(effects)
-  });
-  await fetchEffects();
+export async function addEffect(effect){
+  const res = await fetch('/api/effects',{ method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(effect) });
+  if(!res.ok) throw new Error((await res.json()).error || 'Failed to add effect');
+  const saved = await res.json();
+  const s = getState(); s.effects.unshift(saved); saveState(s);
+  return saved;
 }
-export function overwriteRoutine(items) { state.routine = items; saveState(); }
-export default { getState, saveState, setTheme, setProtect, addEffect, deleteEffect, overwriteEffects, overwriteRoutine };
+
+export async function deleteEffect(id){
+  const res = await fetch(`/api/effects/${encodeURIComponent(id)}`,{ method:'DELETE' });
+  if(!res.ok) throw new Error((await res.json()).error || 'Failed to delete effect');
+  const s = getState(); s.effects = s.effects.filter(e=>e.id!==id); saveState(s);
+}
+
+export async function overwriteEffects(effects){
+  const v = validateEffects(effects); if(!v.ok) throw new Error(v.error);
+  const res = await fetch('/api/effects',{ method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify(effects) });
+  if(!res.ok) throw new Error((await res.json()).error || 'Failed to overwrite effects');
+  const s = getState(); s.effects = effects; saveState(s);
+}

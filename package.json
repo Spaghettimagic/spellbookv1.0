@@ -1,14 +1,15 @@
 {
-  "name": "spellbook-server",
-  "version": "1.0.0",
-  "main": "server.js",
+  "name": "spellbook",
+  "version": "2.0.0",
   "type": "module",
-  "license": "MIT",
+  "description": "Refactored Spellbook web application for magicians.",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "node --test"
+    "test": "node test/server.test.js"
   },
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "dotenv": "^10.0.0"
   }
 }
